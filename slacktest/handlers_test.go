@@ -5,7 +5,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	slack "github.com/slack-go/slack"
+	slack "github.com/MadFaill/slackv2"
 )
 
 func TestAuthTestHandler(t *testing.T) {
