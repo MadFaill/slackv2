@@ -3,6 +3,7 @@ package slack
 import (
 	"context"
 	"errors"
+	"fmt"
 	"net/url"
 	"strconv"
 	"strings"
@@ -272,15 +273,16 @@ func (api *Client) RenameConversationContext(ctx context.Context, channelID, cha
 }
 
 // InviteUsersToConversation invites users to a channel
-func (api *Client) InviteUsersToConversation(channelID string, users ...string) (*Channel, error) {
-	return api.InviteUsersToConversationContext(context.Background(), channelID, users...)
+func (api *Client) InviteUsersToConversation(channelID string, force bool, users ...string) (*Channel, error) {
+	return api.InviteUsersToConversationContext(context.Background(), channelID, force, users...)
 }
 
 // InviteUsersToConversationContext invites users to a channel with a custom context
-func (api *Client) InviteUsersToConversationContext(ctx context.Context, channelID string, users ...string) (*Channel, error) {
+func (api *Client) InviteUsersToConversationContext(ctx context.Context, channelID string, force bool, users ...string) (*Channel, error) {
 	values := url.Values{
 		"token":   {api.token},
 		"channel": {channelID},
+		"force":   {fmt.Sprintf("%v", force)},
 		"users":   {strings.Join(users, ",")},
 	}
 	response := struct {
